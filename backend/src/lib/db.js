@@ -5,7 +5,7 @@ dotenv.config();
 
 export const connectDB = async () => {
   try {
-    const  MONGO_URI = process.env.MONGO_URI;
+    const  MONGO_URI = process.env.MONGODB_URI;
     if (!MONGO_URI) throw new Error("Sorry, please set your MONGO_URI first.");
 
     const conn = await mongoose.connect(MONGO_URI);

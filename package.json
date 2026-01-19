@@ -1,0 +1,24 @@
+{
+  "name": "chatly",
+  "version": "1.0.0",
+  "description": "✨CHATLY is a full-stack real-time chat application built using modern web technologies, focusing on real-time communication, and clean code practices.✨",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start":"cd backend && npm run start",
+    "dev": "cd frontend && cd Chatly && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RikitaRoy3/Chatly.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RikitaRoy3/Chatly/issues"
+  },
+  "homepage": "https://github.com/RikitaRoy3/Chatly#readme"
+}

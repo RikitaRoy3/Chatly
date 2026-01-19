@@ -16,7 +16,7 @@ router.put("/delete", (req,res)=>{
   res.send("This is my Delete Message endpoint");
 });
 
-router.update("/upload", (req,res)=>{
+router.put("/upload", (req,res)=>{
   res.send("This is my Upload Message endpoint");
 });
 

@@ -18,7 +18,7 @@ app.use("api/routes",user_route );
 app.use("api/messages",message_route );
 
 
-if (ENV.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (_, res) => {
