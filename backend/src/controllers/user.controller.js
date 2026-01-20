@@ -1,3 +1,9 @@
+import { User } from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import { ENV } from "../lib/env_file.js";
+import { generateToken } from "../lib/generateToken.js";
+import {  sendWelcomeEmail } from "../emails_config/emailHandler.js";
+
 export const signup = async (req, res) => {
 
   const { fullName, email, password } = req.body;
@@ -30,8 +36,8 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(pass, salt);
 
     const newUser = await User.create({
-      name,
-      normalizedEmail,
+      fullName:name,
+      email:normalizedEmail,
       password: hashedPassword,
       profilePic: "",
     });
@@ -41,14 +47,18 @@ export const signup = async (req, res) => {
     res.status(201).json({
       user: {
         _id: newUser._id,
-        fullName: newUser.name,
-        email: newUser.normalizedEmail,
+        fullName: newUser.fullName,
+        email: newUser.email,
         profilePic: newUser.profilePic,
       },
     });
 
+    try {
       await sendWelcomeEmail(newUser.email, newUser.fullName, ENV.CLIENT_URL);
-   
+    } catch (err) {
+      console.error("Welcome email failed:", err);
+    }
+
   } catch (error) {
     console.error("Error in signup controller:", error);
     res.status(500).json({ message: "Internal server error" });

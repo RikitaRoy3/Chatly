@@ -11,7 +11,7 @@ router.post("/login", (req,res)=>{
   res.send("This is my login page :-D ");
 });
 router.post("/logout", (req,res)=>{
-  res.send("This si logout page :(");
+  res.send("This is logout page :(");
 });
 
 export default router;

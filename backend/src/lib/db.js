@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { ENV } from "./env_file.js";
 
 export const connectDB = async () => {
   try {
-    const  MONGO_URI = process.env.MONGODB_URI;
+    const  MONGO_URI = ENV.MONGODB_URI;
     if (!MONGO_URI) throw new Error("Sorry, please set your MONGO_URI first.");
 
 
