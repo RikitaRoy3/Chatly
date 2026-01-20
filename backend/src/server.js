@@ -14,6 +14,8 @@ const app = express();
 const PORT = process.env.PORT||5000;
 
 
+app.use(express.json());
+
 app.use("api/routes",user_route );
 app.use("api/messages",message_route );
 
