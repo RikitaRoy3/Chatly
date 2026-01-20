@@ -17,3 +17,21 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
 
   console.log("Welcome Email sent successfully", data);
 };
+
+
+
+export const sendProfileUpdatedEmail = async (newUser, clientURL, updatedFields = []) => {
+  const { data, error } = await resendClient.emails.send({
+    from: `${sender.name} <${sender.email}>`,
+    to: newUser.email,
+    subject: "Profile Updated",
+    html: createProfileUpdatedEmailTemplate(newUser, clientURL, updatedFields),
+  });
+
+  if (error) {
+    console.error("Error sending profile updated email:", error);
+    throw new Error("Failed to send profile updated email");
+  }
+
+  console.log("Profile Updated Email sent successfully", data);
+};

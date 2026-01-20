@@ -160,6 +160,13 @@ export const updateProfile = async (req, res) => {
     ).select("-password");
 
     
+    try {
+      await sendProfileUpdatedEmail(updatedUser, ENV.CLIENT_URL, updatedFields);
+    } catch (err) {
+      console.error("Profile update email failed:", err);
+    }
+
+    
     res.status(200).json({
       message: "Profile updated successfully",
       user: updatedUser,
