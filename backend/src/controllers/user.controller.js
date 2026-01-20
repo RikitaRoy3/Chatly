@@ -46,6 +46,9 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       },
     });
+
+      await sendWelcomeEmail(newUser.email, newUser.fullName, ENV.CLIENT_URL);
+   
   } catch (error) {
     console.error("Error in signup controller:", error);
     res.status(500).json({ message: "Internal server error" });
