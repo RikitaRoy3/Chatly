@@ -116,3 +116,64 @@ export const logout = async (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 };
 
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullName, email, password, profilePic } = req.body;
+
+    const updates = {};
+    const updatedFields = [];
+
+    if (fullName) {
+      updates.fullName = fullName;
+      updatedFields.push("fullName");
+    }
+
+    if (email) {
+      updates.email = email;
+      updatedFields.push("email");
+    }
+
+    if (password) {
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+      const salt = await bcrypt.genSalt(10);
+      updates.password = await bcrypt.hash(password, salt);
+      updatedFields.push("password");
+    }
+
+    if (profilePic) {
+      const uploadResult = await cloudinary.uploader.upload(profilePic);
+      updates.profilePic = uploadResult.secure_url;
+      updatedFields.push("profilePic");
+    }
+
+    if (updatedFields.length === 0) {
+      return res.status(200).json({ message: "No changes provided" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      updates,
+      { new: true }
+    ).select("-password");
+
+    
+    try {
+      await sendProfileUpdatedEmail(updatedUser, ENV.CLIENT_URL, updatedFields);
+    } catch (err) {
+      console.error("Profile update email failed:", err);
+    }
+
+    
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error in updateProfile controller:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
