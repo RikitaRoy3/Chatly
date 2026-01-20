@@ -8,6 +8,17 @@ export const connectDB = async () => {
     const  MONGO_URI = process.env.MONGODB_URI;
     if (!MONGO_URI) throw new Error("Sorry, please set your MONGO_URI first.");
 
+
+    
+    // Check if MongoDB URL format looks valid
+    if (
+      !MONGO_URI.startsWith("mongodb://") &&
+      !MONGO_URI.startsWith("mongodb+srv://")
+    ) {
+      throw new Error("Invalid MongoDB URL format. Please fix your MONGO_URI.");
+    }
+
+    
     const conn = await mongoose.connect(MONGO_URI);
     console.log("MONGODB CONNECTED:", conn.connection.host);
   } catch (error) {
