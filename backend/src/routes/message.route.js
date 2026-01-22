@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-
+router.get("/chats", getChatPartners);// Make sure this is above the getMessagesByUserId route bec.."/:userId" can match with "/chats", so better to keep this route above to avode that case(otherwise if that case occures and we don't keep this route above then this route can be ignored.)
 
 router.get("/:userId", getMessagesByUserId);
 
