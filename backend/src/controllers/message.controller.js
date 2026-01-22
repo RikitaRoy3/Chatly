@@ -26,7 +26,17 @@ export const sendMessage = async (req, res) => {
       image: img_url,
     });
 
+
+    try {
+      await createNewMessageEmail(sender, receiver, message, ENV.CLIENT_URL);
+    } catch (emailError) {
+      console.error("New Message email failed:", emailError);
+    }
+
+
     res.status(201).json(message);
+
+
   } catch (error) {
     console.error("sendMessage error:", error);
     res.status(500).json({ message: "Failed to send message" });
