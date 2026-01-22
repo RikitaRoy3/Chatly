@@ -1,8 +1,11 @@
 import express from "express";
 import { getMessagesByUserId, getUserById, sendMessage } from "../controllers/message.controller.js";
 import { checkauth } from "../middlewares/auth.middleware.js";
+import { arcjetProtection } from "../middlewares/arcjet.middleware.js";
 
 const router = express.Router();
+
+router.use(arcjetProtection, checkauth);
 
 
 
@@ -10,7 +13,7 @@ router.get("/chats", getChatPartners);// Make sure this is above the getMessages
 
 router.get("/:userId", getMessagesByUserId);
 
-router.get("/call/:userId", checkauth, getUserById);
+router.get("/call/:userId",  getUserById);
 
 router.post("/send/:userId", sendMessage);
 
