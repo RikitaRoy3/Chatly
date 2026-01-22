@@ -1,5 +1,5 @@
 import express from "express";
-import { getMessagesByUserId, getUserById, sendMessage } from "../controllers/message.controller.js";
+import { getChatPartners, getMessagesByUserId, getUserById, sendMessage } from "../controllers/message.controller.js";
 import { checkauth } from "../middlewares/auth.middleware.js";
 import { arcjetProtection } from "../middlewares/arcjet.middleware.js";
 
