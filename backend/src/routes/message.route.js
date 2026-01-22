@@ -1,11 +1,18 @@
 import express from "express";
-import { sendMessage } from "../controllers/message.controller.js";
+import { getMessagesByUserId, getUserById, sendMessage } from "../controllers/message.controller.js";
+import { checkauth } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 
 
-router.post("/send", sendMessage);
+
+
+router.get("/:userId", getMessagesByUserId);
+
+router.get("/call/:userId", checkauth, getUserById);
+
+router.post("/send/:userId", sendMessage);
 
 
 router.put("/delete", (req,res)=>{

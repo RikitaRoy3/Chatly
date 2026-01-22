@@ -33,3 +33,45 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+
+export const getMessagesByUserId = async (req, res) => {
+  try {
+    const loggedInUserId = req.user._id;
+    const { userId } = req.params;
+
+    const messages = await Message.find({
+      $or: [
+        { senderId: loggedInUserId, receiverId: userId },
+        { senderId: userId, receiverId: loggedInUserId },
+      ],
+    });
+    res.status(200).json(messages);
+  }
+  catch (error) {
+    console.log("Error in getMessagesByUserId controller:", error);
+    res.status(500).json({ message: " Error in getMessagesByUserId controller only.." });
+  }
+}
+
+
+export const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("getUserById error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
