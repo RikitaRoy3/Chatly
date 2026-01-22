@@ -75,3 +75,62 @@ export const getUserById = async (req, res) => {
   }
 };
 
+
+
+export const getChatPartners = async (req, res) => {
+  try {
+    const loggedInUserId = req.user._id;
+
+    // 1️⃣ Get latest message per chat partner
+    const latestMessages = await Message.aggregate([
+      {
+        $match: {
+          $or: [
+            { senderId: loggedInUserId },
+            { receiverId: loggedInUserId },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          chatPartner: {
+            $cond: [
+              { $eq: ["$senderId", loggedInUserId] },
+              "$receiverId",
+              "$senderId",
+            ],
+          },
+        },
+      },
+      {
+        $sort: { createdAt: -1 }, // 🔴 MOST IMPORTANT
+      },
+      {
+        $group: {
+          _id: "$chatPartner",
+          lastMessageAt: { $first: "$createdAt" },
+        },
+      },
+      {
+        $sort: { lastMessageAt: -1 }, // 🔴 FINAL ORDER
+      },
+    ]);
+
+    const orderedUserIds = latestMessages.map((m) => m._id);
+
+    // 2️⃣ Fetch users
+    const users = await User.find({ _id: { $in: orderedUserIds } })
+      .select("-password")
+      .lean();
+
+    // 3️⃣ Preserve order manually
+    const orderedUsers = orderedUserIds.map((id) =>
+      users.find((u) => u._id.toString() === id.toString())
+    );
+
+    res.status(200).json(orderedUsers);
+  } catch (error) {
+    console.error("Error in getChatPartners:", error);
+    res.status(500).json({ message: "Failed to fetch chats" });
+  }
+};
