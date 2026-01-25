@@ -51,7 +51,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   checkAuth: async () => {
     try {
-      const res = await axiosInstance.get("/api/auth/check");
+      const res = await axiosInstance.get("api/routes/check");
       set({ user: res.data.user });
       get().connectSocket();
     } catch {
@@ -64,7 +64,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   login: async (email, password) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/api/auth/login", { email, password });
+      const res = await axiosInstance.post("api/routes/login", { email, password });
       set({ user: res.data.user });
       toast.success("Logged in successfully!");
       get().connectSocket();
@@ -80,7 +80,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   signup: async (fullName, email, password) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/api/auth/signup", {
+      const res = await axiosInstance.post("api/routes/signup", {
         fullName,
         email,
         password,
@@ -99,7 +99,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     try {
-      await axiosInstance.post("/api/auth/logout");
+      await axiosInstance.post("api/routes/logout");
       set({ user: null });
       get().disconnectSocket();
       toast.success("Logged out");
@@ -111,7 +111,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/api/auth/update", data);
+      const res = await axiosInstance.put("api/routes/update", data);
       set({ user: res.data.user });
       toast.success("Profile updated");
       return true;

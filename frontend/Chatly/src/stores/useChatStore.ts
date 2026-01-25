@@ -46,12 +46,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
 
   fetchChats: async () => {
-    const res = await axiosInstance.get("/api/messages/chats");
+    const res = await axiosInstance.get("api/messages/chats");
     set({ chats: res.data });
   },
 
   fetchMessages: async (userId) => {
-    const res = await axiosInstance.get(`/api/messages/${userId}`);
+    const res = await axiosInstance.get(`api/messages/:${userId}`);
     set({ messages: res.data });
   },
 
