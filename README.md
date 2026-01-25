@@ -95,6 +95,22 @@ PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 CLIENT_URL=http://localhost:5173
+
+RESEND_API_KEY=your_resend_api_key
+EMAIL_FROM=the_email_address_to_send_from
+EMAIL_FROM_NAME=the_name_to_send_from
+
+
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET= your_cloudinary_api_secret
+
+
+NODE_ENV=production
+
+ARCJET_KEY=your_arcjet_key
+ARCJET_ENV=production
 ```
 
 Start the backend server:
