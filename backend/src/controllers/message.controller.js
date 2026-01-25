@@ -26,6 +26,11 @@ export const sendMessage = async (req, res) => {
       image: img_url,
     });
 
+      // 🔴 REAL-TIME DELIVERY
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", message);
+    }
 
     try {
       await createNewMessageEmail(sender, receiver, message, ENV.CLIENT_URL);

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import ChatSidebar from "./ChatSidebar";
 import { useState } from "react";
-import { useChatStore } from "@/store/useChatStore";
+import { useChatStore } from "@/stores/useChatStore.ts";
 
 const MobileSidebar = () => {
   const [open, setOpen] = useState(false);

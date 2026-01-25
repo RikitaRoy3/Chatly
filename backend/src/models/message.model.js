@@ -19,6 +19,15 @@ const messageSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+    },
+    emoji: {
+      type: String,
+      default: null, // new field for emoji characters
+    },
+    status: {
+      type: String,
+      enum: ["sent", "delivered", "seen"],
+      default: "sent"
     }
     
   },

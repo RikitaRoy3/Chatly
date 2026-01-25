@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useAuthStore } from "@/store/useAuthStore.js";
+import { useAuthStore } from "@/stores/useAuthStore.js";
 import { useTheme } from "@/hooks/useTheme.js";
 import { Button } from "@/components/ui/button.js";
 import { Input } from "@/components/ui/input.js";
